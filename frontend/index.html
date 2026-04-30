@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+                  "on-primary-fixed": "#001f27",
+                  "on-primary": "#003642",
+                  "primary": "#8bd1e8",
+                  "inverse-on-surface": "#20333b",
+                  "on-error": "#690005",
+                  "primary-container": "#005f73",
+                  "on-secondary": "#003738",
+                  "outline": "#899296",
+                  "on-secondary-container": "#002f30",
+                  "secondary-container": "#28a0a3",
+                  "surface": "#02161d",
+                  "surface-variant": "#24373f",
+                  "on-tertiary-fixed": "#002018",
+                  "on-tertiary-container": "#9bd9c4",
+                  "tertiary-fixed": "#b0efda",
+                  "surface-container": "#0e2229",
+                  "on-error-container": "#ffdad6",
+                  "inverse-surface": "#d1e6f0",
+                  "secondary": "#6bd7da",
+                  "tertiary-fixed-dim": "#95d3be",
+                  "primary-fixed-dim": "#8bd1e8",
+                  "on-secondary-fixed": "#002021",
+                  "inverse-primary": "#13677b",
+                  "surface-container-lowest": "#001017",
+                  "secondary-fixed": "#89f3f6",
+                  "on-primary-container": "#91d7ee",
+                  "surface-container-highest": "#24373f",
+                  "error": "#ffb4ab",
+                  "background": "#02161d",
+                  "surface-container-high": "#192d34",
+                  "tertiary-container": "#226150",
+                  "on-primary-fixed-variant": "#004e5f",
+                  "on-background": "#d1e6f0",
+                  "on-surface": "#d1e6f0",
+                  "secondary-fixed-dim": "#6bd7da",
+                  "on-tertiary": "#00382c",
+                  "on-surface-variant": "#bfc8cc",
+                  "outline-variant": "#3f484c",
+                  "on-secondary-fixed-variant": "#004f51",
+                  "error-container": "#93000a",
+                  "surface-tint": "#8bd1e8",
+                  "surface-bright": "#293c44",
+                  "tertiary": "#95d3be",
+                  "surface-dim": "#02161d",
+                  "on-tertiary-fixed-variant": "#0b5040",
+                  "primary-fixed": "#b2ebff",
+                  "surface-container-low": "#0a1e25"
+          },
+          "borderRadius": {
+                  "DEFAULT": "0.25rem",
+                  "lg": "0.5rem",
+                  "xl": "0.75rem",
+                  "full": "9999px"
+          },
+          "spacing": {
+                  "lg": "2.5rem",
+                  "margin": "2rem",
+                  "sm": "1rem",
+                  "md": "1.5rem",
+                  "xl": "4rem",
+                  "gutter": "1.5rem",
+                  "unit": "8px",
+                  "xs": "0.5rem"
+          },
+          "fontFamily": {
+                  "headline-lg": ["Manrope"],
+                  "body-md": ["Manrope"],
+                  "display-xl": ["Manrope"],
+                  "headline-md": ["Manrope"],
+                  "body-lg": ["Manrope"],
+                  "label-md": ["Manrope"]
+          },
+          "fontSize": {
+                  "headline-lg": ["2.5rem", {"lineHeight": "1.2", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+                  "body-md": ["1rem", {"lineHeight": "1.6", "fontWeight": "400"}],
+                  "display-xl": ["4.5rem", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "800"}],
+                  "headline-md": ["2rem", {"lineHeight": "1.3", "fontWeight": "600"}],
+                  "body-lg": ["1.125rem", {"lineHeight": "1.6", "fontWeight": "400"}],
+                  "label-md": ["0.875rem", {"lineHeight": "1", "letterSpacing": "0.05em", "fontWeight": "600"}]
+          }
+        },
+      },
+    }
+  </script>
+<style>
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+    }
+    .glass-panel {
+      background: rgba(2, 22, 29, 0.4);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(139, 209, 232, 0.1);
+      border-top-color: rgba(139, 209, 232, 0.25);
+    }
+    .bioluminescent-glow {
+      box-shadow: 0 0 20px rgba(10, 147, 150, 0.15);
+    }
+    body {
+      background: radial-gradient(circle at top right, #003642 0%, #02161d 100%);
+    }
+  </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-background min-h-screen font-body-md selection:bg-secondary/30">
+<!-- TopAppBar Section -->
+<header class="fixed top-0 z-50 flex justify-between items-center w-full px-6 py-4 bg-cyan-950/40 backdrop-blur-xl border-b border-cyan-400/20 shadow-[0_0_15px_rgba(10,147,150,0.1)]">
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-cyan-400" data-icon="menu">menu</span>
+<h1 class="font-manrope text-lg font-bold tracking-tight text-xl font-extrabold bg-gradient-to-r from-cyan-500 to-teal-400 bg-clip-text text-transparent">Abyssal Vision</h1>
+</div>
+<div class="w-10 h-10 rounded-full border-2 border-cyan-400/30 p-0.5 overflow-hidden">
+<img alt="Profile" class="w-full h-full object-cover rounded-full" data-alt="A sophisticated professional portrait of a marine researcher in high-end scientific gear. The background is a dark, sleek oceanic laboratory with glowing cyan terminals. The lighting is dramatic and moody, reflecting the Abyssal Luxury aesthetic with deep shadows and teal bioluminescent accents." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAQSnEmFSo1ADAM6HpK3GN45hVFRU60ZPSh6GmUhfXwYO1Zs2FcktmSALAApzfBPV_ouTWuqqe-fhNxJopzLBmIxXJSQw6BPPtpKqJsWivgEzNXvojatiCnAm_t0cISMpFHTBZm9GtMBuJXhg37uOVCWF0f2xAXEvuFvNmSLXtHXpJ9ePMmMuo5f0lA1G2rOxebdGBEIA-VRT98-i4tgkAy6vJS5jPOSvWevmGtSI2NJs8p99P4FUDSsiljOZq56UMLzKbYJQ3gj4k"/>
+</div>
+</header>
+<main class="pt-24 pb-32 px-6 max-w-lg mx-auto space-y-8">
+<!-- Screen Header -->
+<div class="space-y-1">
+<p class="font-label-md text-secondary tracking-[0.2em] uppercase">Core Engine</p>
+<h2 class="font-headline-md text-on-surface">Marine Analyzer</h2>
+</div>
+<!-- Upload Area Component -->
+<section class="relative group" onclick="document.getElementById('fileInput').click()" style="cursor: pointer;">
+<input type="file" id="fileInput" accept="image/*" class="hidden" style="display: none;" onchange="handleFileUpload(event)">
+<div class="aspect-square w-full glass-panel rounded-xl border-2 border-dashed border-cyan-400/30 flex flex-col items-center justify-center p-4 transition-all duration-300 group-hover:border-secondary group-hover:shadow-[0_0_30px_rgba(10,147,150,0.2)]">
+<!-- Preview Image -->
+<div class="absolute inset-4 rounded-lg overflow-hidden">
+<img id="previewImage" class="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity" data-alt="Preview" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD4I70I6Hswnn8hjXdNlbYaLPvTYjIBjm3r7_jAw43wr5jTzDW5EsN5NCWMWbBbd_y_rXS0DVjn8dnRh2t3k1yJ7-Ww3gmmGspYSX9pSQILIfOvnzuOo805-OWdqlHOi9lxsiphJUbZpX-lN2RSaXfbjrOiB8uCAhmyJ9MENC0-seJ3yf4MWuc6pngF0w1rHiHGNSWP2iyWAqHz0uNMXZgT8shkQ6XVapeGCY9swzkYZdNqeS5O5UAud5sC839H4V6G0GkcTLqwaOM"/>
+</div>
+<!-- Overlay Controls (Visible when interacting) -->
+<div class="relative z-10 flex flex-col items-center text-center space-y-4 bg-surface/40 backdrop-blur-sm p-8 rounded-xl border border-white/5">
+<div class="w-16 h-16 rounded-full bg-secondary-container/40 flex items-center justify-center text-secondary border border-secondary/30 bioluminescent-glow">
+<span class="material-symbols-outlined text-4xl" data-icon="add_a_photo">add_a_photo</span>
+</div>
+<div class="space-y-1">
+<p class="font-headline-sm font-bold text-on-primary-container">Tap to Upload</p>
+<p class="text-xs text-outline tracking-wider">RAW, JPEG, or TIFF</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Analysis Result Card -->
+<section id="resultCard" style="display: none;" class="glass-panel rounded-xl p-6 bioluminescent-glow space-y-6">
+<div class="flex justify-between items-start">
+<div class="space-y-1">
+<h3 id="speciesName" class="font-headline-md text-secondary leading-tight">Moon Jellyfish</h3>
+<p id="scientificName" class="font-label-md text-tertiary italic opacity-70">Aurelia aurita</p>
+</div>
+<div class="bg-primary-container/20 px-3 py-1 rounded-full border border-primary/20">
+<span class="text-[10px] font-bold text-primary tracking-widest uppercase">Verified</span>
+</div>
+</div>
+<!-- Confidence Score -->
+<div class="space-y-3">
+<div class="flex justify-between items-end">
+<label id="loadingStatus" class="font-label-md text-outline">Confidence Score</label>
+<span id="confidenceText" class="text-xl font-extrabold text-secondary drop-shadow-[0_0_10px_rgba(107,215,218,0.5)]">98%</span>
+</div>
+<div class="h-2 w-full bg-surface-container-highest rounded-full overflow-hidden">
+<div id="confidenceBar" class="h-full w-[98%] bg-gradient-to-r from-secondary to-tertiary shadow-[0_0_15px_rgba(107,215,218,0.6)] transition-all duration-500"></div>
+</div>
+</div>
+<!-- Details Grid -->
+<div class="grid grid-cols-2 gap-4 pt-4 border-t border-white/5">
+<div class="space-y-1">
+<p class="text-[10px] text-outline uppercase tracking-widest">Habitat</p>
+<p class="text-sm font-semibold text-on-surface">Pelagic Zone</p>
+</div>
+<div class="space-y-1">
+<p class="text-[10px] text-outline uppercase tracking-widest">Toxicity</p>
+<p class="text-sm font-semibold text-error">Low Risk</p>
+</div>
+</div>
+<!-- Action Button -->
+<button class="w-full py-4 rounded-lg bg-gradient-to-r from-secondary-container to-primary-container text-on-primary-fixed font-bold tracking-tight text-sm shadow-[0_4px_20px_rgba(40,160,163,0.3)] hover:scale-[0.98] transition-transform active:opacity-80">
+        ARCHIVE SPECIMEN DATA
+      </button>
+</section>
+</main>
+<!-- BottomNavBar Section -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 pb-6 pt-3 bg-cyan-950/60 backdrop-blur-2xl border-t border-cyan-300/20 rounded-t-lg shadow-[0_-4px_20px_rgba(0,18,25,0.5)]">
+<!-- Explore -->
+<div class="flex flex-col items-center justify-center text-cyan-800 hover:text-cyan-400 transition-all cursor-pointer">
+<span class="material-symbols-outlined" data-icon="explore">explore</span>
+<span class="font-manrope text-[10px] uppercase font-semibold tracking-widest mt-1">Explore</span>
+</div>
+<!-- Analyze (Active) -->
+<div class="flex flex-col items-center justify-center text-teal-300 drop-shadow-[0_0_8px_rgba(148,210,189,0.6)] scale-95 transition-all cursor-pointer">
+<span class="material-symbols-outlined" data-icon="add_a_photo" style="font-variation-settings: 'FILL' 1;">add_a_photo</span>
+<span class="font-manrope text-[10px] uppercase font-semibold tracking-widest mt-1">Analyze</span>
+</div>
+<!-- Archives -->
+<div class="flex flex-col items-center justify-center text-cyan-800 hover:text-cyan-400 transition-all cursor-pointer">
+<span class="material-symbols-outlined" data-icon="history">history</span>
+<span class="font-manrope text-[10px] uppercase font-semibold tracking-widest mt-1">Archives</span>
+</div>
+<!-- Profile -->
+<div class="flex flex-col items-center justify-center text-cyan-800 hover:text-cyan-400 transition-all cursor-pointer">
+<span class="material-symbols-outlined" data-icon="person">person</span>
+<span class="font-manrope text-[10px] uppercase font-semibold tracking-widest mt-1">Profile</span>
+</div>
+</nav>
+
+<script>
+  async function handleFileUpload(event) {
+    const file = event.target.files[0];
+    if (!file) return;
+
+    // Show preview
+    const previewImage = document.getElementById('previewImage');
+    previewImage.src = URL.createObjectURL(file);
+
+    // Reset and show result card
+    const resultCard = document.getElementById('resultCard');
+    const loadingStatus = document.getElementById('loadingStatus');
+    const confidenceText = document.getElementById('confidenceText');
+    const confidenceBar = document.getElementById('confidenceBar');
+    const speciesName = document.getElementById('speciesName');
+    const scientificName = document.getElementById('scientificName');
+
+    resultCard.style.display = 'block';
+    loadingStatus.innerText = 'Analyzing...';
+    confidenceText.innerText = '-%';
+    confidenceBar.style.width = '0%';
+    speciesName.innerText = 'Processing';
+    scientificName.innerText = 'Please wait';
+
+    const formData = new FormData();
+    formData.append('file', file);
+
+    try {
+      const response = await fetch('http://localhost:8000/predict', {
+        method: 'POST',
+        body: formData,
+      });
+
+      if (!response.ok) {
+        throw new Error('API Error');
+      }
+
+      const data = await response.json();
+      loadingStatus.innerText = 'Confidence Score';
+      const confPercent = Math.round((data.confidence || 0) * 100);
+      confidenceText.innerText = confPercent + '%';
+      confidenceBar.style.width = confPercent + '%';
+      
+      speciesName.innerText = data.species || 'Unknown';
+      
+      // Basic mapping for scientific names
+      const scientificMap = {
+        'loggerhead': 'Caretta caretta',
+        'green': 'Chelonia mydas',
+        'leatherback': 'Dermochelys coriacea',
+        'hawksbill': 'Eretmochelys imbricata',
+        'kemps_ridley': 'Lepidochelys kempii',
+        'olive_ridley': 'Lepidochelys olivacea',
+        'flatback': 'Natator depressus'
+      };
+      const key = (data.species || '').toLowerCase().replace(' ', '_');
+      scientificName.innerText = scientificMap[key] || 'Sea Turtle';
+
+    } catch (error) {
+      console.error(error);
+      loadingStatus.innerText = 'Error';
+      speciesName.innerText = 'Analysis Failed';
+      scientificName.innerText = 'Please ensure backend is running.';
+    }
+  }
+</script>
+
+</body></html>
