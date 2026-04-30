@@ -36,6 +36,6 @@ class IImagePreprocessor(ABC):
 
 class IFaceDetector(ABC):
     @abstractmethod
-    def detect(self, image: np.ndarray) -> tuple[Optional[BoundingBox], float]:
-        """Returns the bounding box and confidence score."""
+    def detect(self, image: np.ndarray) -> tuple[Optional[BoundingBox], float, Optional[np.ndarray]]:
+        """Returns the bounding box, confidence score, and optional segmentation mask."""
         pass

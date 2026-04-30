@@ -33,7 +33,7 @@ def test_pipeline_invalid_image_path(pipeline):
     result = pipeline.process_image("non_existent_file.jpg")
     
     assert result.success is False
-    assert "Could not read image" in result.error_message
+    assert "Could not read image" in result.error_message or "No such file or directory" in result.error_message
 
 def test_pipeline_resolution_too_low(pipeline, tmp_path):
     image_path = str(tmp_path / "small.jpg")

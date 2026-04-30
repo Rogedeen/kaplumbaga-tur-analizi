@@ -40,7 +40,7 @@ class ImageProcessingPipeline:
             detection_image = self.preprocessor.resize_for_detection(image)
             
             # 3. Yüz/Baş Tespiti (Detection)
-            bbox, confidence = self.detector.detect(detection_image)
+            bbox, confidence, mask = self.detector.detect(detection_image)
             
             if bbox is None or confidence < self.config.confidence_threshold:
                 return DetectionResult(
@@ -64,8 +64,17 @@ class ImageProcessingPipeline:
                 h=int(bbox.h * scale_y)
             )
             
+            # Arka planı filtrele (Segmentation Maskesi)
+            if mask is not None:
+                mask_orig = cv2.resize(mask, (w_orig, h_orig), interpolation=cv2.INTER_NEAREST)
+                image_to_crop = np.zeros_like(image)
+                for c in range(3):
+                    image_to_crop[:, :, c] = image[:, :, c] * mask_orig
+            else:
+                image_to_crop = image
+            
             # 4. Kırpma + Padding
-            cropped_image = self._crop_with_padding(image, orig_bbox, self.config.padding_percent)
+            cropped_image = self._crop_with_padding(image_to_crop, orig_bbox, self.config.padding_percent)
             
             # 5. Normalizasyon
             normalized_image = self.preprocessor.normalize_for_model(cropped_image)
