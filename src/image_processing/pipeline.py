@@ -12,6 +12,17 @@ class ImageProcessingPipeline:
         self.config = config
 
     def process_image(self, image_path: str) -> DetectionResult:
+        """
+        Görüntü yolunu alarak tam bir tespit (detection) boru hattı işletir.
+        Görüntüyü yükler, doğrular, yüz tespiti yapar, yüzü kırpar (padding ile) 
+        ve sonraki ajanlar için modeli normalize eder.
+        
+        Args:
+            image_path (str): İşlenecek görüntünün dosya yolu.
+            
+        Returns:
+            DetectionResult: Tespit sonucu, kırpılmış/normalize edilmiş görüntü ve güven skoru.
+        """
         try:
             # 1. Ön Doğrulama (Load and validate)
             image = cv2.imread(image_path)

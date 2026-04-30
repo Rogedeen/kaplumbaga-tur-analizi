@@ -35,20 +35,16 @@ Karakter özelliklerin:
 > **NOT:** Bu bölüm Araştırma Ajanı bulgularıyla güncellenecek.
 
 ### Beklenen Model
-**[ARAŞTIRMA AJANININ ÇIKTISINA GÖRE DOLDURULACAK]**
-
-Ön varsayım: **EfficientNet-B3** (timm kütüphanesi)
+**ResNet18** (torchvision kütüphanesi)
 - ImageNet pretrained ağırlıklar
-- Son sınıflandırma katmanı kaldırılır
-- Penultimate layer çıktısı feature vector olarak kullanılır
+- Son sınıflandırma katmanı kaldırılır (`AdaptiveAvgPool2d` ve `Flatten` tutulur)
+- Özellik çıkarımı (feature vector) için `fc` katmanı öncesindeki çıktı kullanılır
+- Gerekçe: *Scientific Reports* çalışması, kaplumbağa sınıflandırması için performans-hız dengesi açısından en iyi sonucu (%88.1 mAP) verdiğini göstermektedir.
 
-### Transfer Learning Stratejisi (Placeholder)
-**[ARAŞTIRMA AJANININ ÇIKTISINA GÖRE DOLDURULACAK]**
-
-Olası stratejiler:
-- **Feature extraction:** Tüm katmanlar dondurulur, sadece yeni head eğitilir
-- **Fine-tuning:** Son N katman açılır, küçük learning rate ile eğitilir
-- **Progressive unfreezing:** Katmanlar kademeli olarak açılır
+### Transfer Learning Stratejisi
+- **Feature extraction:** ImageNet ile eğitilmiş ResNet18 modelinin tüm konvolüsyonel katmanları dondurulur (freeze).
+- Sadece sınıflama ajanı tarafından kullanılmak üzere feature vector çıkarıldığı için, bizim tarafımızda eğitim (fine-tuning) yapılmaz.
+- İleride gereksinim duyulursa (Ajanlar Arası Koordinasyon kararıyla) ince ayar (fine-tuning) için son birkaç `layer` bloğu (örn. `layer4`) açılarak Progressive Unfreezing yapılabilir.
 
 ### Beklenen Girdi
 ```python
@@ -76,19 +72,19 @@ src/
   feature_extraction/
     __init__.py
     interfaces.py          # IFeatureExtractor
-    efficientnet_extractor.py   # EfficientNet implementation
+    resnet_extractor.py    # ResNet18 implementation
     model_loader.py        # Model yükleme, device yönetimi
     config.py              # Model adı, embedding dim, freeze strategy
     exceptions.py          # ModelLoadError, ExtractionError
   tests/
-    test_efficientnet_extractor.py
+    test_resnet_extractor.py
     test_model_loader.py
 ```
 
-**S:** `model_loader.py` sadece model yükler; feature çıkarma `efficientnet_extractor.py`'dadır.
+**S:** `model_loader.py` sadece model yükler; feature çıkarma `resnet_extractor.py`'dadır.
 **O:** Yeni bir model eklemek `IFeatureExtractor`'ı implement etmek demektir.
 **I:** `IFeatureExtractor` sadece `extract(image) -> FeatureVector` içerir; eğitim metotları burada değil.
-**D:** Üst katmanlar `EfficientNetExtractor`'a değil `IFeatureExtractor`'a bağımlıdır.
+**D:** Üst katmanlar `ResNetExtractor`'a değil `IFeatureExtractor`'a bağımlıdır.
 
 ---
 
