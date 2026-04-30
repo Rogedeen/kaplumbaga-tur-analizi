@@ -1,0 +1,36 @@
+# Python Byte-compiled
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual Environments
+.env
+.venv
+env/
+venv/
+ENV/
+
+# Deep Learning / Model Weights
+*.pt
+*.pth
+*.weights
+*.h5
+*.onnx
+models/
+checkpoints/
+
+# Data and Logs
+data/
+datasets/
+logs/
+runs/
+*.log
+
+# IDE / OS specific
+.vscode/
+.idea/
+.DS_Store
+*.swp
+
+# Jupyter Notebook
+.ipynb_checkpoints
