@@ -4,7 +4,7 @@ from dataclasses import dataclass
 class FeatureExtractionConfig:
     """Configuration for feature extraction model."""
     model_name: str = "resnet18"
-    embedding_dim: int = 512  # ResNet18 fc layer input dimension
+    embedding_dim: int = 1000  # ResNet18 fc layer output dimension
     pretrained: bool = True
     freeze_strategy: str = "all"  # 'all' means freeze all conv layers
     

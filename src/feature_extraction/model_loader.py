@@ -38,7 +38,7 @@ class ModelLoader:
             
             # Sınıflandırma katmanını (fc) çıkarıp, sadece özellikleri döndürecek şekilde ayarla.
             # Identity kullanarak fc katmanını pasif hale getiriyoruz.
-            model.fc = nn.Identity()
+            # model.fc = nn.Identity()
             
             if config.freeze_strategy == "all":
                 # Tüm parametreleri dondur
