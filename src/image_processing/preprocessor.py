@@ -9,6 +9,10 @@ class DefaultImagePreprocessor(IImagePreprocessor):
         self.config = config
 
     def validate(self, image: np.ndarray) -> bool:
+        """
+        Validates if the provided image is readable, has valid dimensions,
+        and meets the minimum resolution requirements specified in the config.
+        """
         if image is None or not isinstance(image, np.ndarray):
             raise InvalidImageError("Image is not a valid numpy array.")
         if len(image.shape) < 2:
@@ -21,6 +25,10 @@ class DefaultImagePreprocessor(IImagePreprocessor):
         return True
 
     def resize_for_detection(self, image: np.ndarray) -> np.ndarray:
+        """
+        Resizes the given image for the detection model while maintaining aspect ratio,
+        ensuring its maximum dimension does not exceed the configured max_size.
+        """
         h, w = image.shape[:2]
         max_dim = max(h, w)
         if max_dim > self.config.max_size:
@@ -30,6 +38,10 @@ class DefaultImagePreprocessor(IImagePreprocessor):
         return image
 
     def normalize_for_model(self, image: np.ndarray) -> np.ndarray:
+        """
+        Resizes the cropped image to the target size and normalizes pixel values
+        using the ImageNet mean and standard deviation from the configuration.
+        """
         # Resize to target size for the model
         image = cv2.resize(image, self.config.target_size, interpolation=cv2.INTER_AREA)
         
@@ -37,8 +49,8 @@ class DefaultImagePreprocessor(IImagePreprocessor):
         image_float = image.astype(np.float32) / 255.0
         
         # ImageNet mean and std for transfer learning normalization
-        mean = np.array([0.485, 0.456, 0.406], dtype=np.float32)
-        std = np.array([0.229, 0.224, 0.225], dtype=np.float32)
+        mean = np.array(self.config.imagenet_mean, dtype=np.float32)
+        std = np.array(self.config.imagenet_std, dtype=np.float32)
         
         # If image is grayscale, convert to RGB-like 3 channels
         if len(image_float.shape) == 2:

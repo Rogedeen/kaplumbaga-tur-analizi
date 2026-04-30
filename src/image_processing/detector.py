@@ -18,6 +18,10 @@ class SegmentationFaceDetector(IFaceDetector):
         self.is_mock = self.model_path is None
 
     def detect(self, image: np.ndarray) -> Tuple[Optional[BoundingBox], float]:
+        """
+        Detects the sea turtle face region in the provided image.
+        Returns the bounding box and the confidence score of the detection.
+        """
         if self.is_mock:
             # Mock detection for testing purposes: returns a central bounding box
             h, w = image.shape[:2]

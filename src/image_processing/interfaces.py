@@ -21,14 +21,17 @@ class DetectionResult:
 class IImagePreprocessor(ABC):
     @abstractmethod
     def validate(self, image: np.ndarray) -> bool:
+        """Validates the input image format and resolution."""
         pass
 
     @abstractmethod
     def resize_for_detection(self, image: np.ndarray) -> np.ndarray:
+        """Resizes the image suitably for the detection model."""
         pass
 
     @abstractmethod
     def normalize_for_model(self, image: np.ndarray) -> np.ndarray:
+        """Resizes and normalizes the cropped face image for the classification model."""
         pass
 
 class IFaceDetector(ABC):
