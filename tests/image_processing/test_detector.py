@@ -9,7 +9,7 @@ def config():
     return ImageProcessingConfig()
 
 def test_detector_mock_mode(config):
-    detector = SegmentationFaceDetector(config, model_path=None)
+    detector = SegmentationFaceDetector(config, model_path="")
     image = np.zeros((100, 100, 3), dtype=np.uint8)
     bbox, conf, mask = detector.detect(image)
     

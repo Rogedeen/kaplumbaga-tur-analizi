@@ -1,5 +1,5 @@
 from .interfaces import IClassifier, ClassificationResult, Prediction
-from .softmax_classifier import SoftmaxClassifier
+from .similarity_classifier import SimilarityClassifier
 from .confidence_calibrator import ConfidenceCalibrator
 from .species_registry import SpeciesRegistry
 from .config import ClassificationConfig
@@ -9,7 +9,7 @@ __all__ = [
     "IClassifier",
     "ClassificationResult",
     "Prediction",
-    "SoftmaxClassifier",
+    "SimilarityClassifier",
     "ConfidenceCalibrator",
     "SpeciesRegistry",
     "ClassificationConfig",

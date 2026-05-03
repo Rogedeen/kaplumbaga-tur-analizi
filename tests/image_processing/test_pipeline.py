@@ -11,7 +11,7 @@ from src.image_processing.pipeline import ImageProcessingPipeline
 def pipeline():
     config = ImageProcessingConfig(min_width=50, min_height=50)
     preprocessor = DefaultImagePreprocessor(config)
-    detector = SegmentationFaceDetector(config, model_path=None)
+    detector = SegmentationFaceDetector(config, model_path="")
     return ImageProcessingPipeline(preprocessor, detector, config)
 
 def test_pipeline_success(pipeline, tmp_path):

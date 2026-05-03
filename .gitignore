@@ -34,3 +34,7 @@ runs/
 
 # Jupyter Notebook
 .ipynb_checkpoints
+
+# Frontend Node Modules & Testing
+frontend/node_modules/
+frontend/coverage/

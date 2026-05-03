@@ -1,6 +1,7 @@
 from abc import ABC, abstractmethod
-from dataclasses import dataclass
-from typing import Optional, List
+from dataclasses import dataclass, field
+from typing import Optional, List, Dict, Any
+import numpy as np
 from src.feature_extraction.interfaces import FeatureVector
 
 @dataclass
@@ -18,10 +19,12 @@ class ClassificationResult:
     model_version: str
     classification_timestamp: str
     source_image_id: str
+    reasons: List[str] = field(default_factory=list)
+    symbolic_features: Dict[str, float] = field(default_factory=dict)
 
 class IClassifier(ABC):
     @abstractmethod
-    def classify(self, feature_vector: FeatureVector) -> ClassificationResult:
+    def classify(self, feature_vector: FeatureVector, face_image: Optional[np.ndarray] = None, symbolic_extractor: Any = None) -> ClassificationResult:
         """
         Özellik vektörünü alır ve tür sınıflandırması yapar.
         

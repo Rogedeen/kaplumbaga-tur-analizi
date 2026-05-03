@@ -18,6 +18,7 @@ class ResNetExtractor(IFeatureExtractor):
         # Ön işleme (preprocessing) adımları
         self.transform = transforms.Compose([
             transforms.Resize(self.config.input_size),
+            transforms.CenterCrop(self.config.crop_size),
             transforms.ToTensor(),
             transforms.Normalize(mean=self.config.mean, std=self.config.std)
         ])

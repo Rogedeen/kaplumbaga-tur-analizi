@@ -18,7 +18,7 @@ def test_extract_valid_image(extractor):
     
     assert isinstance(result, FeatureVector)
     assert result.source_image_id == "test_image_1"
-    assert result.model_name == "resnet18"
+    assert result.model_name == "resnet18_metric_learning"
     assert result.embedding.shape == (512,)
     assert isinstance(result.extraction_timestamp, str)
 

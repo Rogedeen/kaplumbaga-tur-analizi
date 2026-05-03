@@ -1,9 +1,12 @@
 import os
 import shutil
 import tempfile
+import logging
+from datetime import datetime
+from typing import Dict, Any
+
 from fastapi import FastAPI, UploadFile, File, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
-from typing import Dict, Any
 
 from src.image_processing import (
     ImageProcessingPipeline,
@@ -13,11 +16,14 @@ from src.image_processing import (
 )
 from src.feature_extraction.resnet_extractor import ResNetExtractor
 from src.classification import (
-    SoftmaxClassifier,
+    SimilarityClassifier,
     ConfidenceCalibrator,
     SpeciesRegistry,
     ClassificationConfig
 )
+from src.classification.symbolic_rules import SymbolicFeatureExtractor
+
+logger = logging.getLogger(__name__)
 
 app = FastAPI(title="TurtleVision API")
 
@@ -41,7 +47,8 @@ extractor = ResNetExtractor()
 class_config = ClassificationConfig()
 calibrator = ConfidenceCalibrator(class_config)
 registry = SpeciesRegistry()
-classifier = SoftmaxClassifier(class_config, calibrator, registry)
+classifier = SimilarityClassifier(class_config, calibrator, registry)
+symbolic_extractor = SymbolicFeatureExtractor()
 
 
 @app.post("/predict")
@@ -49,46 +56,54 @@ async def predict(file: UploadFile = File(...)) -> Dict[str, Any]:
     """
     Kullanıcıdan bir kaplumbağa görüntüsü (UploadFile) alır ve sırasıyla;
     1. Yüz tespiti ve kırpma (Image Processing),
-    2. Özellik vektörü çıkarımı (Feature Extraction),
-    3. Tür sınıflandırması (Classification)
+    2. Özellik vektörü çıkarımı (Feature Extraction) ve Kural Tabanlı Çıkarım,
+    3. Tür sınıflandırması (Classification - Hybrid Neuro-Symbolic)
     işlemlerinden geçirir.
     
     Args:
         file (UploadFile): Tahmin edilecek kaplumbağa görüntüsü.
         
     Returns:
-        Dict[str, Any]: Tahmin sonucu, güven skoru (confidence) ve işlemlerle ilgili metadata bilgileri.
+        Dict[str, Any]: Tahmin sonucu, güven skoru (confidence), gerekçeler ve işlemlerle ilgili metadata bilgileri.
         
     Raises:
         HTTPException: Dosya yüklenemezse veya tespit başarısız olursa 400 döner. İşlem esnasında hata çıkarsa 500 döner.
     """
     if not file.filename:
-        raise HTTPException(status_code=400, detail="No file uploaded")
-        
-    # Save the file temporarily
+        raise HTTPException(status_code=400, detail="Dosya yüklenmedi.")
+
     suffix = os.path.splitext(file.filename)[1] if file.filename else ".jpg"
-    with tempfile.NamedTemporaryFile(delete=False, suffix=suffix) as temp_file:
-        shutil.copyfileobj(file.file, temp_file)
-        temp_path = temp_file.name
-        
+    with tempfile.NamedTemporaryFile(delete=False, suffix=suffix) as tmp:
+        shutil.copyfileobj(file.file, tmp)
+        temp_path = tmp.name
+
     try:
         # Step 1: Image Processing (Face Detection & Cropping)
         detection_result = pipeline.process_image(temp_path)
         if not detection_result.success:
             raise HTTPException(status_code=400, detail=detection_result.error_message)
             
-        # Step 2: Feature Extraction
+        # Step 2: Feature Extraction (Neuro)
         feature_vector = extractor.extract(detection_result.cropped_image, source_image_id=file.filename)
         
-        # Step 3: Classification
-        classification_result = classifier.classify(feature_vector)
+        # Step 3: Classification (using Hybrid Neuro-Symbolic SimilarityClassifier with Lazy Evaluation)
+        classification_result = classifier.classify(feature_vector, face_image=detection_result.cropped_image, symbolic_extractor=symbolic_extractor)
+        symbolic_features = classification_result.symbolic_features # Elde edilen özellikleri geri alıyoruz
         
+        # Get common name
+        common_name = None
+        if classification_result.top_predictions:
+            common_name = classification_result.top_predictions[0].common_name
+            
         # Prepare response
         return {
             "success": True,
             "predicted_species": classification_result.predicted_species,
+            "common_name": common_name,
             "confidence": classification_result.confidence,
             "is_confident": classification_result.is_confident,
+            "reasons": classification_result.reasons,
+            "symbolic_features": symbolic_features,
             "top_predictions": [
                 {
                     "species": pred.species,
@@ -112,11 +127,12 @@ async def predict(file: UploadFile = File(...)) -> Dict[str, Any]:
     except HTTPException:
         raise
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Prediction failed: {str(e)}")
+        logger.error(f"Tahmin hatası: {e}")
+        raise HTTPException(status_code=500, detail=f"Tahmin başarısız: {str(e)}")
     finally:
-        # Clean up temporary file
         if os.path.exists(temp_path):
             os.remove(temp_path)
+
 
 @app.get("/health")
 def health_check():

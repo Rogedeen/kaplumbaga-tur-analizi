@@ -6,8 +6,8 @@ def test_species_registry():
     
     info = registry.get_species_info(0)
     assert info is not None
-    assert info["species"] == "Chelonia mydas"
-    assert info["common_name"] == "Green Sea Turtle"
+    assert info["species"] == "Chelydra serpentina"
+    assert info["common_name"] == "Bayağı Kapan Kaplumbağa"
     
     assert registry.get_num_classes() == 5
     
